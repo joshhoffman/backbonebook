@@ -10,6 +10,7 @@ var Movies = Backbone.Collection.extend({
     // Unselect all models
     resetSelected: function() {
         this.each(function(model) {
+            console.log('reset');
             model.set({"selected": false});
         });
     },
@@ -18,6 +19,8 @@ var Movies = Backbone.Collection.extend({
     selectByID: function(id) {
         this.resetSelected();
         var movie = this.get(id);
+        console.log('setting movie');
+        console.log(movie);
         movie.set({"selected": true});
         return movie.id;
     },

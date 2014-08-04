@@ -8,7 +8,7 @@ var MovieView = Backbone.View.extend({
     template: '<h1><%= title %><hr></h1>',
     initialize: function() {
         console.log('in movie view init');
-        this.listenTo(this.model, 'change:title', this.render)
+        this.listenTo(this.model, 'change', this.render)
     },
     render: function() {
         console.log('in movieview render');
@@ -25,9 +25,10 @@ var MovieView = Backbone.View.extend({
     _selectMovie: function(ev) {
         console.log('select movie');
 
-        ev.preventDefault();
+        //ev.preventDefault();
 
         console.log($(ev.currentTarget).html());
+        
         if (!this.model.get('selected')) {
             this.model.collection.resetSelected();
             this.model.collection.selectByID(this.model.id);
