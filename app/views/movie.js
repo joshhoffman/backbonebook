@@ -1,5 +1,5 @@
 var $ = require('jquery-untouched');
-var Backbone = require('Backbone');
+var Backbone = require('backbone');
 var _ = require('underscore');
 
 var MovieView = Backbone.View.extend({

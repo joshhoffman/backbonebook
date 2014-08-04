@@ -1,4 +1,4 @@
-var Backbone = require("Backbone")
+var Backbone = require("backbone")
 
 var Movie = Backbone.Model.extend({
     defaults: {
