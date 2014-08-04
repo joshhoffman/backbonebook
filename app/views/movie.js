@@ -5,7 +5,7 @@ var _ = require('underscore');
 var MovieView = Backbone.View.extend({
     tagname: 'article',
     className: 'movie',
-    template: '<h1><%= title %><hr></h1>',
+    template: '<h1><a href="/movies/<%= id %><%= title %></a><hr></h1>',
     initialize: function() {
         console.log('in movie view init');
         this.listenTo(this.model, 'change', this.render)
