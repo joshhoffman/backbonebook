@@ -3,7 +3,7 @@ var Backbone = require('backbone');
 var _ = require('underscore');
 
 var MovieView = Backbone.View.extend({
-    tagname: 'article',
+    tagName: 'article',
     className: 'movie',
     template: "<h1><a href='/movies/<%= id %>'><%= title %></a><hr></h1>",
     initialize: function(options) {
