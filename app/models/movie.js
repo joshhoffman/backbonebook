@@ -6,9 +6,6 @@ var Movie = Backbone.Model.extend({
         year: 0,
         description: "empty",
         selected: false
-    },
-    initialize: function() {
-        console.log('movie init');
     }
 });
 module.exports = Movie;

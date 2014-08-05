@@ -1,4 +1,5 @@
 var Backbone = require('backbone');
+var _ = require('underscore');
 
 // data
 var Movies = require('collections/movies');
@@ -6,35 +7,36 @@ var data = require('./movies.json');
 var movies = new Movies(data);
 
 // views
-var MoviesList = require('views/moviesList');
+var Layout = require('views/layout');
 
 var MoviesRouter = Backbone.Router.extend({
     routes: {
-        '/movies/:id': 'SelectMovie',
-        '': 'ShowMain'
+        'movies/:id': 'selectMovie',
+        '':           'showMain'
     },
 
-    SelectMovie: function(id) {
-        console.log('in select movie');
-        this.moviesList.render();
+    selectMovie: function(id) {
+        console.log('!!!select');
+        this.movies.resetSelected();
         this.movies.selectByID(id);
+
+        this.layout.setDetails(this.movies.get(id));
     },
 
-    ShowMain: function() {
+    showMain: function() {
         console.log('in show main');
-        this.moviesList.render();
+        this.movies.resetSelected();
+        this.layout.setChose();
     },
 
     initialize: function(options) {
-        console.log('in router init');
         this.movies = movies;
-        console.log('test1');
-        this.moviesList = new MoviesList({
-            el: options.el,
-            collection: movies
+        this.layout = new Layout.getInstance({
+            el: '#movies',
+            router: this
         });
-        console.log(this.moviesList);
-        console.log('test');
+        this.layout.render();
+        //_.extend(this.moviesList, {router: this});
     }
 });
 

@@ -5,13 +5,14 @@ var _ = require('underscore');
 var MovieView = Backbone.View.extend({
     tagname: 'article',
     className: 'movie',
-    template: '<h1><a href="/movies/<%= id %><%= title %></a><hr></h1>',
-    initialize: function() {
-        console.log('in movie view init');
-        this.listenTo(this.model, 'change', this.render)
+    template: "<h1><a href='/movies/<%= id %>'><%= title %></a><hr></h1>",
+    initialize: function(options) {
+        this.listenTo(this.model, 'change:title', this.render);
+        this.listenTo(this.model, 'change:selected', this.render);
+        this.router = options.router;
     },
     render: function() {
-        console.log('in movieview render');
+        console.log('!!!!!');
         var tmpl = _.template(this.template);
 
         this.$el.html(tmpl(this.model.toJSON()));
@@ -20,18 +21,15 @@ var MovieView = Backbone.View.extend({
         return this;
     },
     events: {
-        'click': '_selectMovie'
+        'click': 'selectMovie'
     },
-    _selectMovie: function(ev) {
+    selectMovie: function(ev) {
         console.log('select movie');
 
-        //ev.preventDefault();
-
-        console.log($(ev.currentTarget).html());
-        
         if (!this.model.get('selected')) {
-            this.model.collection.resetSelected();
-            this.model.collection.selectByID(this.model.id);
+            console.log('!!! ' + this.model.id);
+            console.log(this.model);
+            this.router.navigate("/movies/" + this.model.id, {trigger: true});
         }
     }
 });

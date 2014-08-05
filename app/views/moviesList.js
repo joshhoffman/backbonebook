@@ -2,22 +2,36 @@ var $ = require('jquery-untouched');
 var Backbone = require('backbone');
 Backbone.$ = $;
 
-
 var MovieView = require('views/movie');
+
 var MoviesList = Backbone.View.extend({
+    tagName: 'section',
     render: function() {
-        console.log('in movieslist render1');
+        var that = this;
         var moviesView = this.collection.map(function(movie) {
-            console.log('in map');
-            return (new MovieView({model: movie})).render().el;
+            return (new MovieView({model: movie, router: that.router})).render().el;
         });
         console.log('in movieslist render');
         this.$el.html(moviesView);
         return this;
     },
-    initialize: function() {
-        console.log('init list');
+    initialize: function(options) {
+        this.router = options.router;
     }
 });
+
+var instance;
+MoviesList.getInstance = function(options) {
+    if(!instance) {
+        console.log('new movies instance');
+        instance = new MoviesList({
+            el: options.el,
+            collection: options.collection,
+            router: options.router
+        });
+    }
+
+    return instance;
+};
 
 module.exports = MoviesList;

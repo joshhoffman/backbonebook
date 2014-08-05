@@ -12,6 +12,7 @@
     "backbone": "^1.1.2",
     "express": "^4.7.2",
     "jquery-untouched": "^1.10.2",
+    "moment": "^2.8.1",
     "pushstate-server": "^0.2.0",
     "underscore": "^1.6.0"
   }

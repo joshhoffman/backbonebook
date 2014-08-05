@@ -10,13 +10,8 @@ $(document).ready(function() {
         el: $('#movies')
     });
 
-    console.log('in ready');
-
-
     Backbone.history.start({
         pushState: true,
         root: '/'
     });
-
-    console.log('after start');
 });
