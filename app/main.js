@@ -14,4 +14,9 @@ $(document).ready(function() {
         pushState: true,
         root: '/'
     });
+
+    $.ajax({
+        url: "/api/movies",
+        headers: {"content-type": "application/json"}
+    });
 });

@@ -14,7 +14,12 @@
     "express": "^4.7.2",
     "jquery-untouched": "^1.10.2",
     "moment": "^2.8.1",
+    "proxy-middleware": "^0.5.0",
     "pushstate-server": "^0.2.0",
     "underscore": "^1.6.0"
+  },
+  "devDependencies": {
+    "canned": "^0.2.3",
+    "morgan": "^1.2.2"
   }
 }

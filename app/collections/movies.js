@@ -1,10 +1,9 @@
 var Backbone = require('backbone');
 var _ = require('underscore');
 
-var Movie = require('models/movie');
-
 var Movies = Backbone.Collection.extend({
-    model: Movie,
+    model: require('models/movie'),
+    url: '/api/movies',
 
     // Unselect all models
     resetSelected: function() {

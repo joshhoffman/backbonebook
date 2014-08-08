@@ -2980,20 +2980,40 @@ module.exports=require(3)
 var Backbone = require('backbone');
 var _ = require('underscore');
 
-var Movie = require('models/movie');
+var Movies = Backbone.Collection.extend({
+    model: require('models/movie'),
+    url: '/api/movies',
 
-var MoviesByShowtime = Backbone.Collection.extend({
-    model: Movie,
-    comparator: function(m) {
-        return -m.toShowtimeDate();
+    // Unselect all models
+    resetSelected: function() {
+        this.each(function(model) {
+            model.set({"selected": false});
+        });
     },
-    log: function() {
-        console.log(this.models);
-        this.each(function(movie) {
-            console.log(movie.get('title') + ' ' + movie.showtimeToString() + '(' + movie.get('showtime') + ')');
-        })
+
+    getSelected: function() {
+        return this.pluck('selected').indexOf(true);
+    },
+
+    // Select a specific model form the collection
+    selectByID: function(id) {
+        var movie = this.get(id);
+        movie.set({"selected": true});
+        return movie.id;
+    },
+    sortByTitle: function() {
+        return this.sortBy('title');
+    },
+    sortByRating: function() {
+        var sorted = this.sortBy(function(m) {
+            return (10 - m.get('rating'));
+        });
+        return sorted;
+    },
+    sortByShowtime: function() {
+        return this.sortBy('showtime');
     }
 });
 
-module.exports = MoviesByShowtime;
+module.exports = Movies;
 },{"backbone":2,"models/movie":1,"underscore":4}]},{},[]);
