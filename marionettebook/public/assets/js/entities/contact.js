@@ -8,7 +8,7 @@ ContactManager.module("Entities", function(Entities, ContactManager,
         }
     });
     
-    Entities.configureStorage(Entites.Contact);
+    Entities.configureStorage(Entities.Contact);
 
     Entities.ContactCollection = Backbone.Collection.extend({
         url: "contacts",
@@ -49,21 +49,51 @@ ContactManager.module("Entities", function(Entities, ContactManager,
         contacts.forEach(function(contact) {
             contact.save();
         });
-        return contacts;
+        return contacts.models;
     };
 
     var API = {
         getContactEntities: function() {
-            var contacts = new Entities.Contactcollection();
-            contacts.fetch();
-            if(contacts.length === 0) {
-                return initializeContacts();
-            }
-            return contacts;
+            var contacts = new Entities.ContactCollection();
+            var defer = $.Deferred();
+            contacts.fetch({
+                success: function(data) {
+                    defer.resolve(data);
+                }
+            });
+            
+            var promise = defer.promise();
+            
+            $.when(promise).done(function(contacts) {
+                if(contacts.length === 0) {
+                    var models =  initializeContacts();
+                    contacts.reset(models);
+                }    
+            });
+            return promise;
+        },
+        getContactEntity: function(contactId) {
+            var contact = new Entities.Contact({id: contactId});
+            var defer = $.Deferred();
+            setTimeout(function() {
+                contact.fetch({
+                    success: function(data) {
+                        defer.resolve(data);
+                    },
+                    error: function(data) {
+                        defer.resolve(undefined);
+                    }
+                });
+            }, 500);
+            return defer.promise();
         }
     };
 
     ContactManager.reqres.setHandler("contact:entities", function() {
         return API.getContactEntities();
-    })
+    });
+    
+    ContactManager.reqres.setHandler('contact:entity', function(id) {
+        return API.getContactEntity(id);
+    });
 });
