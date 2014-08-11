@@ -1,37 +1,27 @@
 ContactManager.module("Entities", function(Entities, ContactManager,
                                            Backbone, Marionette, $, _){
     Entities.Contact = Backbone.Model.extend({
+        urlRoot: "contacts",
         defaults: {
             firstName: "",
             phoneNumber: "No phone number!"
         }
     });
+    
+    Entities.configureStorage(Entites.Contact);
 
     Entities.ContactCollection = Backbone.Collection.extend({
+        url: "contacts",
         model: Entities.Contact,
-        comparator: function(m1, m2) {
-            if(m1.get('firstName') < m2.get('firstName')) {
-                return -1;
-            }
-
-            if(m1.get('firstName') === m2.get('firstName')) {
-                if(m1.get('lastName') < m2.get('lastName')) {
-                    return -1;
-                }
-                else if(m1.get('lastName') > m2.get('lastName')) {
-                    return 1;
-                }
-                return 0;
-            }
-
-            return 1;
-        }
+        comparator: 'firstName'
     });
+    
+    Entities.configureStorage(Entities.ContactCollection);
 
     var contacts;
 
     var initializeContacts = function() {
-        contacts = new Entities.ContactCollection([
+        var contacts = new Entities.ContactCollection([
             {
                 id: 1,
                 firstName: "Bob",
@@ -56,12 +46,18 @@ ContactManager.module("Entities", function(Entities, ContactManager,
                 phoneNumber: "555-0129"
             }
         ]);
+        contacts.forEach(function(contact) {
+            contact.save();
+        });
+        return contacts;
     };
 
     var API = {
         getContactEntities: function() {
-            if(contacts === undefined) {
-                initializeContacts();
+            var contacts = new Entities.Contactcollection();
+            contacts.fetch();
+            if(contacts.length === 0) {
+                return initializeContacts();
             }
             return contacts;
         }
