@@ -19,7 +19,7 @@ ContactManager.on("start", function() {
     }
 
     if(this.getCurrentRoute() === "") {
-        ContactManager.trigger("contacts-list");
+        ContactManager.trigger("contacts:list");
     }
     console.log("ContactManager has started!");
 });
