@@ -6,7 +6,8 @@ ContactManager.module("ContactsApp.List", function(List, ContactManager,
         events: {
             "click" : "highlightName",
             "click button.js-delete": "deleteClicked",
-            "click td a.js-show": "showClicked"
+            "click td a.js-show": "showClicked",
+            "click td a.js-edit": "editClicked"
         },
 
         highlightName: function() {
@@ -22,6 +23,13 @@ ContactManager.module("ContactsApp.List", function(List, ContactManager,
             e.preventDefault();
             e.stopPropagation();
             this.trigger("contact:show", this.model);
+        },
+
+        editClicked: function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('edit clicked');
+            this.trigger("contact:edit", this.model);
         },
 
         remove: function() {
