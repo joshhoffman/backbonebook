@@ -22,16 +22,17 @@ ContactManager.module("ContactsApp.List", function(List, ContactManager,
 
                 contactsListView.on("childview:contact:edit", function(childView, model) {
                     var view = new ContactManager.ContactsApp.Edit.Contact({
-                        model: model
+                        model: model,
+                        asModal: true
                     });
-
-                    console.log('on edit');
-
-                    view.on("show", function() {
-                        this.$el.dialog({
-                            modal: true,
-                            width: "auto"
-                        });
+                    
+                    view.on("form:submit", function(data) {
+                        if(model.save(data)) {
+                            childView.render();
+                            ContactManager.dialogRegion.empty();
+                        } else {
+                            view.triggerMethod("form:data:invalid", model.validationError);
+                        }
                     });
 
                     ContactManager.dialogRegion.show(view);
