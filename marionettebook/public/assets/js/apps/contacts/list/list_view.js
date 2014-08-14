@@ -1,5 +1,18 @@
 ContactManager.module("ContactsApp.List", function(List, ContactManager,
     Backbone, Marionette, $, _) {
+
+    List.Layout = Marionette.LayoutView.extend({
+        template: "#contact-list-layout",
+        regions: {
+            panelRegion: "#panel-region",
+            contactsRegion: "#contacts-region"
+        }
+    });
+
+    List.Panel = Marionette.ItemView.extend({
+        template: "#contact-list-panel"
+    });
+
     List.Contact = Marionette.ItemView.extend({
         tagName: "tr",
         template: "#contact-list-item",
@@ -36,6 +49,15 @@ ContactManager.module("ContactsApp.List", function(List, ContactManager,
             var self = this;
             this.$el.fadeOut(function() {
                 Marionette.ItemView.prototype.remove.call(self);
+            });
+        },
+
+        flash: function(cssClass) {
+            var $view = this.$el;
+            $view.hide().toggleClass(cssClass).fadeIn(800, function () {
+                setTimeout(function () {
+                    $view.toggleClass(cssClass);
+                }, 500);
             });
         }
     });

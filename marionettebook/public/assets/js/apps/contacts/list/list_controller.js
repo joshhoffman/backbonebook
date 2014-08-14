@@ -7,9 +7,17 @@ ContactManager.module("ContactsApp.List", function(List, ContactManager,
             
             var fetchingContacts = ContactManager.request("contact:entities");
 
+            var contactsListLayout = new List.Layout();
+            var contactsListPanel = new List.Panel();
+
             $.when(fetchingContacts).done(function(contacts) {
                 var contactsListView = new List.Contacts({
                     collection: contacts
+                });
+
+                contactsListLayout.on("show", function() {
+                    contactsListLayout.panelRegion.show(contactsListPanel);
+                    contactsListLayout.contactsRegion.show(contactsListView);
                 });
 
                 contactsListView.on("childview:contact:delete", function(childView, model) {
@@ -30,6 +38,7 @@ ContactManager.module("ContactsApp.List", function(List, ContactManager,
                         if(model.save(data)) {
                             childView.render();
                             ContactManager.dialogRegion.empty();
+                            childView.flash("success");
                         } else {
                             view.triggerMethod("form:data:invalid", model.validationError);
                         }
@@ -38,7 +47,7 @@ ContactManager.module("ContactsApp.List", function(List, ContactManager,
                     ContactManager.dialogRegion.show(view);
                 });
 
-                ContactManager.mainRegion.show(contactsListView);
+                ContactManager.mainRegion.show(contactsListLayout);
            });
         }
     }
