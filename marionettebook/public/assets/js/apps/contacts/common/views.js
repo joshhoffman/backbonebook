@@ -38,24 +38,6 @@ ContactManager.module("ContactsApp.Common.Views", function(Views, ContactManager
 
             clearFormErrors();
             _.each(errors, markErrors);
-        },
-
-        onRender: function() {
-            if(!this.options.asModal) {
-                var $title = $("<h1>", {text: this.title});
-                this.$el.prepend($title);
-            }
-        },
-
-        onShow: function() {
-            if(this.options.asModal) {
-                this.$el.dialog({
-                    modal: true,
-                    title: this.title,
-                    width: "auto"
-                });
-            }
         }
-
     });
 });

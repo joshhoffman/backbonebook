@@ -4,7 +4,8 @@ ContactManager.module("Entities", function(Entities, ContactManager,
         urlRoot: "contacts",
         defaults: {
             firstName: "",
-            phoneNumber: "No phone number!"
+            lastName: "",
+            phoneNumber: ""
         },
         
         validate: function(attrs, options) {
